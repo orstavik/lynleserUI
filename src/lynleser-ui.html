@@ -1,25 +1,46 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../bower_components/paper-styles/paper-styles.html">
 
 <link rel="import" href="top-toolbar.html">
 <link rel="import" href="page-content.html">
-<link rel="import" href="navigation-drawer.html">
 
 <dom-module id="lynleser-ui">
   <template>
     <style>
       #uiShell {
         display: flex;
-        height: 100%;
+        height: 100vh;
         flex-direction: column;
-        background: var(--paper-orange-50);
+      }
+      app-drawer-layout:not([narrow]) app-drawer {
+        margin-top: 56px;
+      }
+
+      [drawer] {
+        display: block;
+        width: 100%;
+        height: 100%;
+        @apply(--shadow-elevation-2dp);
+      }
+      [content] {
+        display: block;
+        width: 100%;
+        height: 200vh;
       }
     </style>
 
     <div id="uiShell">
-      <top-toolbar on-drawer-open="drawerOpen"></top-toolbar>
-      <page-content></page-content>
-      <navigation-drawer id="drawer"></navigation-drawer>
+      <top-toolbar on-drawer-toggle="drawerToggle" narrow$="[[narrow]]" drawer-open="[[drawerOpen]]"></top-toolbar>
+      <app-drawer-layout narrow="{{narrow}}">
+        <app-drawer id="drawer" slot="drawer" swipe-open opened="{{drawerOpen}}">
+          <div drawer>DRAWER</div>
+        </app-drawer>
+        <page-content>
+          <div content></div>
+        </page-content>
+      </app-drawer-layout>
     </div>
 
   </template>
@@ -31,8 +52,8 @@
         return {}
       }
 
-      drawerOpen(e) {
-        this.$.drawer.open();
+      drawerToggle(e) {
+        this.$.drawer.toggle();
       }
     }
     window.customElements.define(LynleserUi.is, LynleserUi);

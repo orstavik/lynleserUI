@@ -3,9 +3,12 @@
     <style>
       :host {
         display: flex;
-  			flex-grow: 1;
+  			height: calc(100vh - 56px);
+        overflow-y: scroll;
       }
     </style>
+
+    <slot></slot>
 
   </template>
 
@@ -13,8 +16,7 @@
     class PageContent extends Polymer.Element {
       static get is() { return 'page-content'; }
       static get properties() {
-        return {
-        };
+        return {}
       }
     }
 

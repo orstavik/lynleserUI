@@ -1,26 +1,38 @@
-<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
 <link rel="import" href="../bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 
 <dom-module id="animated-icon">
   <template>
     <style>
-      :host {
-        display: flex;
-				align-items: center;
-				justify-content: center;
-				position: relative;
-				border-radius: 50%;
-				cursor: pointer;
+      :host { display: flex; }
+      iron-icon#active { position: absolute; }
+      iron-icon:not([hidden]) { animation: RotateIn 0.2s forwards; }
+      iron-icon[hidden] { animation: RotateOut 0.2s forwards; }
+
+      @keyframes RotateIn {
+        from {
+          transform: rotate(-180deg);
+          opacity: 0;
+        }
+        to {
+          transform: rotate(0);
+          opacity: 1;
+        }
       }
-			iron-icon {
-				margin: 6px;
-				color: rgba(255,255,255,1);
-			}
+      @keyframes RotateOut {
+        from {
+          transform: rotate(0deg);
+          opacity: 1;
+        }
+        to {
+          transform: rotate(180deg);
+          opacity: 0;
+        }
+      }
     </style>
 
-		<paper-ripple></paper-ripple>
-		<iron-icon icon="[[icon]]"></iron-icon>
+    <iron-icon id="default" icon="[[icon]]" hidden$="[[active]]"></iron-icon>
+    <iron-icon id="active" icon="[[activeIcon]]" hidden$="[[!active]]"></iron-icon>
 
   </template>
 
@@ -29,8 +41,18 @@
       static get is() { return 'animated-icon'; }
       static get properties() {
         return {
-					icon: String
-        };
+					icon: String,
+					activeIcon: String,
+          active: {
+            type: Boolean,
+            value: false,
+            reflectToAttribute: true
+          }
+        }
+      }
+
+      toggle(e) {
+        this.active = !this.active;
       }
     }
 
