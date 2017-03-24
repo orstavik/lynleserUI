@@ -1,0 +1,6 @@
+{
+  "name": "lynleserUI",
+  "short_name": "lynleserUI",
+  "start_url": "/",
+  "display": "standalone"
+}

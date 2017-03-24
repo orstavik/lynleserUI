@@ -1,0 +1,23 @@
+<dom-module id="page-content">
+  <template>
+    <style>
+      :host {
+        display: flex;
+  			flex-grow: 1;
+      }
+    </style>
+
+  </template>
+
+  <script>
+    class PageContent extends Polymer.Element {
+      static get is() { return 'page-content'; }
+      static get properties() {
+        return {
+        };
+      }
+    }
+
+    window.customElements.define(PageContent.is, PageContent);
+  </script>
+</dom-module>
