@@ -1,4 +1,3 @@
-<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
 
 <link rel="import" href="animated-icon.html">
 
@@ -15,7 +14,6 @@
         padding: 0 10px;
 				background-color: var(--paper-indigo-500);
         user-select: none;
-				@apply(--shadow-elevation-4dp);
       }
 
       :host(:not([narrow])) { z-index: 2; }
@@ -30,7 +28,7 @@
 				cursor: pointer;
       }
 
-      /*:host(:not([narrow])) #menuIcon { display: none; }*/
+      :host(:not([narrow])) #menuIcon { display: none; }
 
 			#menuIcon animated-icon {
 				margin: 8px;
@@ -47,7 +45,7 @@
 
 		<div id="menuIcon" on-tap="_drawerToggle">
       <paper-ripple></paper-ripple>
-		  <animated-icon icon="menu" active-icon="arrow-back" active$="[[drawerOpen]]"></animated-icon>
+		  <animated-icon icon="menu" active-icon="arrow-back"></animated-icon>
     </div>
 		<span class="headline">Lynleser</span>
 
@@ -57,9 +55,7 @@
     class TopToolbar extends Polymer.GestureEventListeners(Polymer.Element) {
       static get is() { return 'top-toolbar'; }
       static get properties() {
-        return {
-          drawerOpen: Boolean
-        }
+        return {}
       }
 
       _drawerToggle(e) {

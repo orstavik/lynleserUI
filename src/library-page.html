@@ -1,0 +1,126 @@
+<link rel="import" href="../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/iron-list/iron-list.html">
+<link rel="import" href="../bower_components/iron-image/iron-image.html">
+<link rel="import" href="../bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="../bower_components/app-layout/app-toolbar/app-toolbar.html">
+<link rel="import" href="../bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+
+<dom-module id="library-page">
+  <template>
+    <style>
+      /*:host {
+        display: block;
+				height: 100%;
+				background-color: var(--paper-indigo-50);
+      }*/
+			app-header {
+				background-color: var(--paper-indigo-500);
+        user-select: none;
+			}
+			[condensed-title] {
+				margin: 8px;
+				font-size: 20px;
+				font-weight: 500;
+				color: rgba(255,255,255,1);
+			}
+			[main-title] {
+				margin: 8px;
+				font-size: 40px;
+				font-weight: 500;
+				color: rgba(255,255,255,1);
+			}
+			iron-list {
+				flex: 1 1 auto;
+			}
+			a {
+				text-decoration: none;
+				color: black;
+			}
+			.book-card {
+				display: flex;
+				width: 160px;
+				height: 200px;
+				margin: 8px;
+				border-radius: 2px;
+				flex-direction: column;
+				background-color: white;
+				overflow: hidden;
+			}
+			.book-image {
+				height: 120px;
+			}
+    </style>
+
+		<app-header-layout id="headerLayout">
+
+			<app-header slot="header" condenses reveals shadow effects="resize-title">
+
+				<app-toolbar>
+					<slot></slot>
+					<div condensed-title>Library page</div>
+				</app-toolbar>
+				<app-toolbar></app-toolbar>
+				<app-toolbar>
+					<slot></slot>
+					<div main-title>Library</div>
+				</app-toolbar>
+
+			</app-header>
+
+			<iron-list id="grid" items="[[books]]" as="book" grid>
+
+				<template>
+					<a href="#/book/[[book.title]]">
+						<paper-material elevation=1 class="book-card">
+							<iron-image src="[[imgResp.img]]" preload fade sizing="cover" class="book-image" placeholder="[[imgResp.img-preview]]"></iron-image>
+							<div class="book-content">
+								<h3>[[book.title]]</h3>
+								<span>[[book.author]]</span>
+							</div>
+						</paper-material>
+					</a>
+				</template>
+
+			</iron-list>
+
+		</app-header-layout>
+
+		<iron-ajax auto
+							 url="../data/book.json"
+							 handle-as="json"
+							 loading="{{loading}}"
+							 last-response="{{imgResp}}">
+		</iron-ajax>
+
+  </template>
+
+  <script>
+    class LibraryPage extends Polymer.Element {
+      static get is() { return 'library-page'; }
+      static get properties() {
+        return {
+					books: Array,
+					active: Boolean
+				}
+      }
+			static get observers() {
+				return [
+					"_updateView(active)"
+				]
+			}
+
+			connectedCallback() {
+				super.connectedCallback();
+				this.$.headerLayout.resetLayout();
+				window.addEventListener("resize", () => this.$.headerLayout.resetLayout() );
+			}
+
+			_updateView(a) {
+				if (a) this.$.headerLayout.resetLayout();
+			}
+    }
+    window.customElements.define(LibraryPage.is, LibraryPage);
+  </script>
+</dom-module>

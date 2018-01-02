@@ -1,59 +1,129 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/app-route/app-location.html">
+<link rel="import" href="../bower_components/app-route/app-route.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../bower_components/iron-icon/iron-icon.html">
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
 <link rel="import" href="../bower_components/paper-styles/paper-styles.html">
+<link rel="import" href="../bower_components/paper-ripple/paper-ripple.html">
 
-<link rel="import" href="top-toolbar.html">
-<link rel="import" href="page-content.html">
+<link rel="import" href="drawer-menu.html">
+<link rel="import" href="library-page.html">
+<link rel="import" href="book-page.html">
+<link rel="import" href="reader-page.html">
 
 <dom-module id="lynleser-ui">
   <template>
     <style>
-      #uiShell {
+			#menuIcon, #backIcon {
         display: flex;
-        height: 100vh;
-        flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				position: relative;
+				border-radius: 50%;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /*IMPORTANT PEACE OF CSS*/
+				cursor: pointer;
       }
-      app-drawer-layout:not([narrow]) app-drawer {
-        margin-top: 56px;
-      }
+      app-drawer-layout:not([narrow]) iron-pages #menuIcon { display: none; }
+			#menuIcon iron-icon, #backIcon iron-icon {
+				margin: 8px;
+				color: rgba(255,255,255,1);
+			}
 
-      [drawer] {
-        display: block;
-        width: 100%;
-        height: 100%;
+      app-drawer:not([narrow]) {
         @apply(--shadow-elevation-2dp);
       }
-      [content] {
+
+      iron-pages > * {
         display: block;
         width: 100%;
-        height: 200vh;
+      }
+      app-toolbar {
+        background-color: grey;
       }
     </style>
 
-    <div id="uiShell">
-      <top-toolbar on-drawer-toggle="drawerToggle" narrow$="[[narrow]]" drawer-open="[[drawerOpen]]"></top-toolbar>
-      <app-drawer-layout narrow="{{narrow}}">
-        <app-drawer id="drawer" slot="drawer" swipe-open opened="{{drawerOpen}}">
-          <div drawer>DRAWER</div>
-        </app-drawer>
-        <page-content>
-          <div content></div>
-        </page-content>
-      </app-drawer-layout>
-    </div>
+    <app-location route="{{route}}" use-hash-as-path></app-location>
+    <app-route route="{{route}}"  pattern="/:page" data="{{data}}" tail="{{subroute}}"></app-route>
+    <app-route route="{{route}}" pattern="/book/:book" data="{{bookdata}}"></app-route>
+
+    <app-drawer-layout id="drawerLayout" on-drawer-toogle="drawerToggle">
+
+      <app-drawer id="drawer" slot="drawer" swipe-open opened="{{drawerOpen}}">
+        <drawer-menu selected="[[data.page]]"
+                     on-drawer-close="drawerClose">
+        </drawer-menu>
+      </app-drawer>
+
+      <iron-pages selected="[[data.page]]" attr-for-selected="page" selected-attribute="active">
+
+        <library-page page="library" books="[[books]]">
+					<div id="menuIcon" on-tap="drawerToggle">
+						<paper-ripple></paper-ripple>
+						<iron-icon icon="menu"></iron-icon>
+					</div>
+        </library-page>
+
+        <book-page page="book" book="[[bookdata.book]]">
+					<div id="backIcon">
+						<paper-ripple></paper-ripple>
+            <a href="#/library">
+              <iron-icon icon="arrow-back"></iron-icon>
+            </a>
+					</div>
+        </book-page>
+
+        <reader-page page="reader">
+					<div id="menuIcon" on-tap="drawerToggle">
+						<paper-ripple></paper-ripple>
+						<iron-icon icon="menu"></iron-icon>
+					</div>
+        </reader-page>
+
+      </iron-pages>
+
+    </app-drawer-layout>
 
   </template>
 
   <script>
-    class LynleserUi extends Polymer.Element {
+    class LynleserUi extends Polymer.GestureEventListeners(Polymer.Element) {
       static get is() { return 'lynleser-ui'; }
       static get properties() {
-        return {}
+        return {
+          books: {
+            type: Array,
+            value: function() {
+              let arr = [];
+              for (let i = 0; i<100; i++)
+                arr.push({
+                  title: "Book Number "+i,
+                  description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+                  year: 1000+10*i,
+                  author: "Author"+i
+                })
+              return arr;
+            }
+          }
+        }
+      }
+
+      connectedCallback() {
+        super.connectedCallback();
+        if (!this.route.path) {
+          this.set('route.path', '/library');
+        }
       }
 
       drawerToggle(e) {
         this.$.drawer.toggle();
+      }
+
+      drawerClose(e) {
+        if (this.$.drawerLayout.narrow)
+          this.$.drawer.toggle();
       }
     }
     window.customElements.define(LynleserUi.is, LynleserUi);

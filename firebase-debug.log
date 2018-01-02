@@ -1,0 +1,32 @@
+[debug] [2018-01-02T09:27:29.494Z] ----------------------------------------------------------------------
+[debug] [2018-01-02T09:27:29.496Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\fales\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] [2018-01-02T09:27:29.496Z] CLI Version:   3.16.0
+[debug] [2018-01-02T09:27:29.496Z] Platform:      win32
+[debug] [2018-01-02T09:27:29.496Z] Node Version:  v9.2.0
+[debug] [2018-01-02T09:27:29.496Z] Time:          Tue Jan 02 2018 11:27:29 GMT+0200 (FLE Standard Time)
+[debug] [2018-01-02T09:27:29.496Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-01-02T09:27:29.510Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-01-02T09:27:29.510Z] > authorizing via signed-in user
+[debug] [2018-01-02T09:27:29.512Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/solarsystem-19089  
+  
+ Tue Jan 02 2018 11:27:29 GMT+0200 (FLE Standard Time)
+[debug] [2018-01-02T09:27:30.378Z] <<< HTTP RESPONSE 200
+[debug] [2018-01-02T09:27:30.378Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/solarsystem-19089/tokens  
+  
+ Tue Jan 02 2018 11:27:30 GMT+0200 (FLE Standard Time)
+[debug] [2018-01-02T09:27:31.050Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'E:\Programming\Polymer\interText\lynleserUI'...
+[info] 
+[debug] [2018-01-02T09:27:31.052Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/solarsystem-19089  
+  
+ Tue Jan 02 2018 11:27:31 GMT+0200 (FLE Standard Time)
+[debug] [2018-01-02T09:27:31.936Z] <<< HTTP RESPONSE 200
+[debug] [2018-01-02T09:27:31.937Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/648439382376/clients/_:getWebAppConfig  
+  
+ Tue Jan 02 2018 11:27:31 GMT+0200 (FLE Standard Time)
+[debug] [2018-01-02T09:27:33.023Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: /
+[info] +  hosting: Local server: http://localhost:5000
+
