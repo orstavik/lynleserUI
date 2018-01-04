@@ -1,4 +1,4 @@
-bower_components/
-functions/node_modules/
+/bower_components/**
+/functions/node_modules/**
 .idea/
 .vscode/

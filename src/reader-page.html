@@ -1,0 +1,58 @@
+<dom-module id="reader-page">
+  <template>
+    <style>
+			app-toolbar {
+				background-color: var(--paper-deep-orange-500);
+        user-select: none;
+			}
+			[main-title] {
+				margin: 8px;
+				font-size: 20px;
+				font-weight: 500;
+				color: rgba(255,255,255,1);
+			}
+    </style>
+
+    <app-header-layout id="headerLayout">
+
+			<app-header slot="header" condenses reveals shadow effects="resize-title">
+
+				<app-toolbar class="top-toolbar">
+					<slot></slot>
+					<div main-title>Reader</div>
+				</app-toolbar>
+
+			</app-header>
+
+    </app-header-layout>
+
+  </template>
+
+  <script>
+    class ReaderPage extends Polymer.Element {
+      static get is() { return 'reader-page'; }
+      static get properties() {
+        return {
+					book: Array,
+					active: Boolean
+				}
+      }
+			static get observers() {
+				return [
+					"_updateView(active)"
+				]
+			}
+
+			connectedCallback() {
+				super.connectedCallback();
+				this.$.headerLayout.resetLayout();
+				window.addEventListener("resize", () => this.$.headerLayout.resetLayout() );
+			}
+
+			_updateView(a) {
+				if (a) this.$.headerLayout.resetLayout();
+			}
+    }
+    window.customElements.define(ReaderPage.is, ReaderPage);
+  </script>
+</dom-module>
